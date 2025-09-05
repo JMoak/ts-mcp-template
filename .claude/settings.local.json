@@ -1,0 +1,6 @@
+{
+  "enabledMcpjsonServers": [
+    "ts-mcp-template"
+  ],
+  "enableAllProjectMcpServers": true
+}

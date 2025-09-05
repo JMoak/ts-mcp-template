@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "module": "ES2022",
+    "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -11,7 +11,6 @@
     "rootDir": "src",
     "declaration": false,
     "resolveJsonModule": true,
-    "preserveShebang": true,
     "types": ["node"]
   },
   "include": ["src/**/*.ts"],

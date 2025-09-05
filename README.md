@@ -13,6 +13,14 @@ Features:
 - Install deps: `npm install`
 - Build: `npm run build` (outputs to `dist/`)
 
+## Local Development with Inspector
+
+For testing and debugging your MCP server locally, use the MCP Inspector:
+
+- Start inspector: `npm run inspector`
+
+The inspector provides a web interface at `http://localhost:6274` to test your MCP server tools interactively. Configuration is stored in `.local-mcp/mcp.json`.
+
 ## Usage
 
 Run via Node directly:
