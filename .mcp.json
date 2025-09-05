@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "ts-mcp-template": {
+      "command": "node",
+      "args": ["dist/index.js"],
+      "env": {}
+    }
+  }
+}

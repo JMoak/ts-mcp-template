@@ -1,0 +1,39 @@
+{
+  "name": "ts-mcp-template",
+  "version": "0.1.0",
+  "private": false,
+  "type": "module",
+  "description": "Lightweight TypeScript MCP server template (stdio transport)",
+  "bin": {
+    "ts-mcp-template": "dist/index.js"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rimraf dist",
+    "lint": "biome lint .",
+    "format": "biome format --write .",
+    "inspector": "npx @modelcontextprotocol/inspector --config .mcp.json --profile ts-mcp-template",
+    "inspector:kill": "powershell -Command \"Get-Process | Where-Object {$_.ProcessName -eq 'node' -and $_.CommandLine -like '*inspector*'} | Stop-Process -Force\""
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.9.0",
+    "zod": "^3.24.2",
+    "zod-to-json-schema": "^3.24.5"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/node": "^22.7.4",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.6.3"
+  }
+}
+
