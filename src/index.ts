@@ -2,18 +2,18 @@
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import {
-  CallToolRequestSchema,
-  ErrorCode,
-  ListToolsRequestSchema,
-  McpError,
-  ToolSchema,
+	CallToolRequestSchema,
+	ErrorCode,
+	ListToolsRequestSchema,
+	McpError,
+	ToolSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 import { zodToJsonSchema } from "zod-to-json-schema";
 
 const server = new Server(
-  { name: "ts-mcp-template", version: "0.1.0" },
-  { capabilities: { tools: {} } }
+	{ name: "ts-mcp-template", version: "0.1.0" },
+	{ capabilities: { tools: {} } },
 );
 
 const ToolInputSchema = ToolSchema.shape.inputSchema;
@@ -21,62 +21,61 @@ type ToolInput = z.infer<typeof ToolInputSchema>;
 
 // Minimal example tool: echo
 const EchoParamsSchema = z
-  .object({
-    text: z.string().min(1).describe("Text to echo back"),
-    uppercase: z
-      .boolean()
-      .optional()
-      .describe("If true, return the text in uppercase"),
-  })
-  .describe("Parameters for echo tool");
+	.object({
+		text: z.string().min(1).describe("Text to echo back"),
+		uppercase: z
+			.boolean()
+			.optional()
+			.describe("If true, return the text in uppercase"),
+	})
+	.describe("Parameters for echo tool");
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
-  tools: [
-    {
-      name: "echo",
-      description: "Echo back input text",
-      inputSchema: zodToJsonSchema(EchoParamsSchema) as ToolInput,
-    },
-  ],
+	tools: [
+		{
+			name: "echo",
+			description: "Echo back input text",
+			inputSchema: zodToJsonSchema(EchoParamsSchema) as ToolInput,
+		},
+	],
 }));
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
-  switch (request.params.name) {
-    case "echo": {
-      // Validate with Zod at runtime
-      const parsed = EchoParamsSchema.safeParse(request.params.arguments ?? {});
-      if (!parsed.success) {
-        throw new McpError(
-          ErrorCode.InvalidParams,
-          `Invalid arguments for echo: ${parsed.error.message}`
-        );
-      }
-      const { text, uppercase } = parsed.data;
-      const value = uppercase ? text.toUpperCase() : text;
-      return {
-        content: [
-          {
-            type: "text",
-            text: value,
-          },
-        ],
-      };
-    }
-    default:
-      throw new McpError(
-        ErrorCode.MethodNotFound,
-        `Unknown tool: ${request.params.name}`
-      );
-  }
+	switch (request.params.name) {
+		case "echo": {
+			// Validate with Zod at runtime
+			const parsed = EchoParamsSchema.safeParse(request.params.arguments ?? {});
+			if (!parsed.success) {
+				throw new McpError(
+					ErrorCode.InvalidParams,
+					`Invalid arguments for echo: ${parsed.error.message}`,
+				);
+			}
+			const { text, uppercase } = parsed.data;
+			const value = uppercase ? text.toUpperCase() : text;
+			return {
+				content: [
+					{
+						type: "text",
+						text: value,
+					},
+				],
+			};
+		}
+		default:
+			throw new McpError(
+				ErrorCode.MethodNotFound,
+				`Unknown tool: ${request.params.name}`,
+			);
+	}
 });
 
 async function main() {
-  const transport = new StdioServerTransport();
-  await server.connect(transport);
+	const transport = new StdioServerTransport();
+	await server.connect(transport);
 }
 
 main().catch((err) => {
-  console.error("Fatal error starting MCP server:", err);
-  process.exit(1);
+	console.error("Fatal error starting MCP server:", err);
+	process.exit(1);
 });
-
