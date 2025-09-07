@@ -1,23 +1,21 @@
 #!/usr/bin/env node
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import type { ToolSchema } from "@modelcontextprotocol/sdk/types.js";
 import {
 	CallToolRequestSchema,
 	ErrorCode,
 	ListToolsRequestSchema,
 	McpError,
-	ToolSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
-import { zodToJsonSchema } from "zod-to-json-schema";
 
 const server = new Server(
 	{ name: "ts-mcp-template", version: "0.1.0" },
 	{ capabilities: { tools: {} } },
 );
 
-const ToolInputSchema = ToolSchema.shape.inputSchema;
-type ToolInput = z.infer<typeof ToolInputSchema>;
+type ToolInput = z.infer<typeof ToolSchema.shape.inputSchema>;
 
 // Minimal example tool: echo
 const EchoParamsSchema = z
@@ -35,7 +33,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
 		{
 			name: "echo",
 			description: "Echo back input text",
-			inputSchema: zodToJsonSchema(EchoParamsSchema) as ToolInput,
+			inputSchema: z.toJSONSchema(EchoParamsSchema) as ToolInput,
 		},
 	],
 }));

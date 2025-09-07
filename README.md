@@ -45,7 +45,7 @@ The server communicates over stdio per MCP conventions. It exposes a single tool
 
 ## Dev Notes
 
-- Node >= 18.17
+- Node >= 22.0.0
 - TypeScript config preserves shebang for CLI use.
 - For lint/format:
   - Lint: `npm run lint`
