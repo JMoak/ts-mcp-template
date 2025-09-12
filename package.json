@@ -18,6 +18,8 @@
 		"clean": "rimraf dist",
 		"lint": "biome lint .",
 		"lint:fix": "biome check --write --unsafe .",
+		"test": "vitest run",
+		"test:ui": "vitest --ui",
 		"inspector": "npx @modelcontextprotocol/inspector --config .mcp.json --profile ts-mcp-template"
 	},
 	"engines": {
@@ -30,7 +32,9 @@
 	"devDependencies": {
 		"@biomejs/biome": "^2.2.3",
 		"@types/node": "^24.3.1",
+		"@vitest/ui": "^3.2.4",
 		"rimraf": "^6.0.1",
-		"typescript": "^5.9.2"
+		"typescript": "^5.9.2",
+		"vitest": "^3.2.4"
 	}
 }
